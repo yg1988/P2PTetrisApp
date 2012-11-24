@@ -1,0 +1,13 @@
+A android tetris duel game through wifi p2p network. 
+
+
+---------------------------------------------------------------------------------------------------------------
+Acknowledgements:
+
+This work is based on harshpai's implementation of tetris and android example project Wifi Direct Service Discovery.
+
+The game derives from the Tetris assignment (refer Tetris.pdf) of Object Oriented System Design (CS 108)
+course of Stanford University taught by Prof.Patrick Young. 
+http://www.stanford.edu/class/cs108/
+
+All rights belong to the respective owners.

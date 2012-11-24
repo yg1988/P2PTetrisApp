@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+<!-- 
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:background="#EC7703"
+       	tools:context=".WiFiChatFragment"/>
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/textView1"
+        android:text="@string/down"
+        android:background="#CCCCCC"
+        tools:context=".WiFiChatFragment"/>
+ -->
+
+	 <LinearLayout
+	     xmlns:android="http://schemas.android.com/apk/res/android"
+	     xmlns:tools="http://schemas.android.com/tools"
+	     android:layout_width="fill_parent"
+	     android:layout_height="fill_parent"
+	     android:layout_alignParentTop="true"
+	     android:orientation="horizontal"
+	     android:paddingLeft="16dp"
+	     android:paddingRight="16dp" >
+
+	  <TextView
+	        android:id="@+id/textView1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:background="#EC7703"
+	       	tools:context=".WiFiChatFragment"/>
+	  <TextView
+	        android:id="@+id/textView2"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/down"
+	        android:background="#CCCCCC"
+	        tools:context=".WiFiChatFragment"/>
+	</LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="moveLeft"
+        android:text="@string/left" 
+        android:layout_marginLeft="130sp"
+        android:layout_marginTop="300sp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="moveDown"
+        android:text="@string/down"
+        android:layout_marginLeft="210sp"
+        android:layout_marginTop="350sp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="moveRight"
+        android:text="@string/right" 
+        android:layout_marginLeft="310sp"
+        android:layout_marginTop="300sp"/>
+     
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="rotate"
+        android:text="@string/rotate"
+        android:layout_marginLeft="210sp"
+        android:layout_marginTop="300sp" />
+
+</FrameLayout>
