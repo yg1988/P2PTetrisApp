@@ -371,6 +371,8 @@ public class WiFiServiceDiscoveryActivity extends Activity implements
 		@Override
 		protected Void doInBackground(Integer... arg0) {
 			chatFragment.tetris.tick(arg0[0]);
+			if(chatFragment.chatManager!=null)
+				chatFragment.chatManager.write(chatFragment.tetris.paintComponent().getBytes());
 			return null;
 		}
 

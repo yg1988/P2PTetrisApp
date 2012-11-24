@@ -41,9 +41,9 @@ public class WiFiChatFragment extends Fragment {
 	String TAG="JTetris main activity";
 	
 	
-    private ChatManager chatManager=null;   //send message every down operation
+    ChatManager chatManager=null;   //send message every down operation
     private View view;
-    ChatMessageAdapter adapter = null;	
+//    ChatMessageAdapter adapter = null;	
 	
 	
 	
@@ -142,48 +142,48 @@ public class WiFiChatFragment extends Fragment {
         chatManager = obj;
     }
 
-    public void pushMessage(String readMessage) {
-        adapter.add(readMessage);
-        adapter.notifyDataSetChanged();
-    }
+//    public void pushMessage(String readMessage) {
+//        adapter.add(readMessage);
+//        adapter.notifyDataSetChanged();
+//    }
 
     /**
      * ArrayAdapter to manage chat messages.
      */
-    public class ChatMessageAdapter extends ArrayAdapter<String> {
-
-        List<String> messages = null;
-
-        public ChatMessageAdapter(Context context, int textViewResourceId,
-                List<String> items) {
-            super(context, textViewResourceId, items);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View v = convertView;
-            if (v == null) {
-                LayoutInflater vi = (LayoutInflater) getActivity()
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(android.R.layout.simple_list_item_1, null);
-            }
-            String message = items.get(position);
-            if (message != null && !message.isEmpty()) {
-                TextView nameText = (TextView) v
-                        .findViewById(android.R.id.text1);
-
-                if (nameText != null) {
-                    nameText.setText(message);
-                    if (message.startsWith("Me: ")) {
-                        nameText.setTextAppearance(getActivity(),
-                                R.style.normalText);
-                    } else {
-                        nameText.setTextAppearance(getActivity(),
-                                R.style.boldText);
-                    }
-                }
-            }
-            return v;
-        }
-    }
+//    public class ChatMessageAdapter extends ArrayAdapter<String> {
+//
+//        List<String> messages = null;
+//
+//        public ChatMessageAdapter(Context context, int textViewResourceId,
+//                List<String> items) {
+//            super(context, textViewResourceId, items);
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            View v = convertView;
+//            if (v == null) {
+//                LayoutInflater vi = (LayoutInflater) getActivity()
+//                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//                v = vi.inflate(android.R.layout.simple_list_item_1, null);
+//            }
+//            String message = items.get(position);
+//            if (message != null && !message.isEmpty()) {
+//                TextView nameText = (TextView) v
+//                        .findViewById(android.R.id.text1);
+//
+//                if (nameText != null) {
+//                    nameText.setText(message);
+//                    if (message.startsWith("Me: ")) {
+//                        nameText.setTextAppearance(getActivity(),
+//                                R.style.normalText);
+//                    } else {
+//                        nameText.setTextAppearance(getActivity(),
+//                                R.style.boldText);
+//                    }
+//                }
+//            }
+//            return v;
+//        }
+//    }
 }
