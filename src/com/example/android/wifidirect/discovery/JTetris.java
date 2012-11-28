@@ -1,13 +1,6 @@
 package com.example.android.wifidirect.discovery;
-// JTetris.java
-//import java.awt.*;
-//import javax.swing.*;
-
 import java.util.*;
-//import java.awt.event.*;
-//import javax.swing.event.*;
 
-//import java.awt.Toolkit;
 
 
 /**
@@ -81,16 +74,9 @@ public class JTetris {
 	protected Random random;	 // the random generator for new pieces
 
 
-	// Controls
-	//protected JLabel countLabel;
-	//protected JLabel scoreLabel;
+
 	protected int score;
-	//protected JLabel timeLabel;
-	//protected JButton startButton;
-	//protected JButton stopButton;
-	//protected javax.swing.Timer timer;
-	//protected JSlider speed;
-	//protected JCheckBox testButton;
+
 
 	public final int DELAY = 400;	// milliseconds per tick
 
@@ -110,111 +96,7 @@ public class JTetris {
 		board = new Board(WIDTH, HEIGHT + TOP_SPACE);
 
 
-		/*
-		 Register key handlers that call
-		 tick with the appropriate constant.
-		 e.g. 'j' and '4'  call tick(LEFT)
 
-		 I tried doing the arrow keys, but the JSliders
-		 try to use those too, causing problems.
-		 */
-
-		// LEFT
-		/*
-		registerKeyboardAction(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						tick(LEFT);
-					}
-				}, "left", KeyStroke.getKeyStroke('4'), WHEN_IN_FOCUSED_WINDOW
-				);
-		registerKeyboardAction(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						tick(LEFT);
-					}
-				}, "left", KeyStroke.getKeyStroke('j'), WHEN_IN_FOCUSED_WINDOW
-				);
-
-
-		// RIGHT
-		registerKeyboardAction(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						tick(RIGHT);
-					}
-				}, "right", KeyStroke.getKeyStroke('6'), WHEN_IN_FOCUSED_WINDOW
-				);
-		registerKeyboardAction(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						tick(RIGHT);
-					}
-				}, "right", KeyStroke.getKeyStroke('l'), WHEN_IN_FOCUSED_WINDOW
-				);
-
-
-		// ROTATE
-		registerKeyboardAction(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						tick(ROTATE);
-					}
-				}, "rotate", KeyStroke.getKeyStroke('5'), WHEN_IN_FOCUSED_WINDOW
-				);
-		registerKeyboardAction(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						tick(ROTATE);
-					}
-				}, "rotate", KeyStroke.getKeyStroke('i'), WHEN_IN_FOCUSED_WINDOW
-				);
-
-
-		// DROP
-		registerKeyboardAction(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						tick(DROP);
-					}
-				}, "drop", KeyStroke.getKeyStroke('0'), WHEN_IN_FOCUSED_WINDOW
-				);
-		registerKeyboardAction(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						tick(DROP);
-					}
-				}, "drop", KeyStroke.getKeyStroke('n'), WHEN_IN_FOCUSED_WINDOW
-				);
-		//added part
-		registerKeyboardAction(
-				new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						tick(DOWN);
-					}
-				}, "down", KeyStroke.getKeyStroke('k'), WHEN_IN_FOCUSED_WINDOW
-				);
-
-
-		// Create the Timer object and have it send
-		// tick(DOWN) periodically
-		timer = new javax.swing.Timer(DELAY, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				tick(DOWN);
-			}
-		});
-
-		requestFocusInWindow();*/
 	}
 
 
@@ -236,39 +118,27 @@ public class JTetris {
 		gameOn = true;
 
 		// Set mode based on checkbox at start of game
-		//testMode = testButton.isSelected();
 		testMode = true;
 		if (testMode) random = new Random(0);	// same seq every time
 		else random = new Random(); // diff seq each game
 
-		enableButtons();
-		//timeLabel.setText(" ");
 		Piece piece = pickNextPiece();
 		addNewPiece(piece);
-		//timer.start();
 		startTime = System.currentTimeMillis();
 	}
 
 
-	/**
-	 Sets the enabling of the start/stop buttons
-	 based on the gameOn state.
-	 */
-	private void enableButtons() {
-		//startButton.setEnabled(!gameOn);
-		//stopButton.setEnabled(gameOn);
-	}
+
 
 	/**
 	 Stops the game.
 	 */
 	public void stopGame() {
 		gameOn = false;
-		//enableButtons();
-		//timer.stop();
+
 
 		long delta = (System.currentTimeMillis() - startTime)/10;
-		//timeLabel.setText(Double.toString(delta/100.0) + " seconds");
+
 
 	}
 
@@ -286,13 +156,10 @@ public class JTetris {
 		int result = board.place(piece, x, y);
 
 		if (result <= Board.PLACE_ROW_FILLED) { // SUCESS
-			// repaint the rect where it used to be
-			if (currentPiece != null) repaintPiece(currentPiece, currentX, currentY);
 			currentPiece = piece;
 			currentX = x;
 			currentY = y;
 			// repaint the rect where it is now
-			repaintPiece(currentPiece, currentX, currentY);
 		}
 		else {
 			board.undo();
@@ -437,7 +304,7 @@ public class JTetris {
 
 	 Overriden by the brain when it plays.
 	 */
-	public void tick(int verb) {
+	public synchronized void tick(int verb) {
 		//if (!gameOn) return;
 
 		if (currentPiece != null) {
@@ -462,7 +329,6 @@ public class JTetris {
 		// if it didn't work, put it back the way it was
 		if (failed) {
 			if (currentPiece != null) board.place(currentPiece, currentX, currentY);
-			repaintPiece(currentPiece, currentX, currentY);
 		}
 
 		/*
@@ -506,64 +372,6 @@ public class JTetris {
 		moved = (!failed && verb!=DOWN);
 	}
 
-
-
-	/**
-	 Given a piece and a position for the piece, generates
-	 a repaint for the rectangle that just encloses the piece.
-	 */
-	public void repaintPiece(Piece piece, int x, int y) {
-		if (DRAW_OPTIMIZE) {
-			/*
-			int px = xPixel(x);
-			int py = yPixel(y + piece.getHeight() - 1);
-			int pwidth = xPixel(x+piece.getWidth()) - px;
-			int pheight = yPixel(y-1) - py;
-			 */
-			//repaint(px, py, pwidth, pheight);
-		}
-		else {
-			// Not-optimized -- rather than repaint
-			// just the piece rect, repaint the whole board.
-			//repaint();
-		}
-	}
-
-
-	/*
-	 Pixel helpers.
-	 These centralize the translation of (x,y) coords
-	 that refer to blocks in the board to (x,y) coords that
-	 count pixels. Centralizing these computations here
-	 is the only prayer that repaintPiece() and paintComponent()
-	 will be consistent.
-
-	 The +1's and -2's are to account for the 1 pixel
-	 rect around the perimeter.
-	 */
-
-
-	// width in pixels of a block
-	/*private final float dX() {
-		return( ((float)(getWidth()-2)) / board.getWidth() );
-	}
-
-	// height in pixels of a block
-	private final float dY() {
-		return( ((float)(getHeight()-2)) / board.getHeight() );
-	}
-
-	// the x pixel coord of the left side of a block
-	private final int xPixel(int x) {
-		return(Math.round(1 + (x * dX())));
-	}
-
-	// the y pixel coord of the top of a block
-	private final int yPixel(int y) {
-		return(Math.round(getHeight() -1 - (y+1)*dY()));
-	}
-*/
-
 	/**
 	 Draws the current board with a 1 pixel border
 	 around the whole thing. Uses the pixel helpers
@@ -573,65 +381,26 @@ public class JTetris {
 	
 	public String paintComponent() {
 		StringBuilder result = new StringBuilder();
-		// Draw a rect around the whole thing
-		//g.drawRect(0, 0, getWidth()-1, getHeight()-1);
 
-
-		// Draw the line separating the top
-		//int spacerY = yPixel(board.getHeight() - TOP_SPACE - 1);
-		//g.drawLine(0, spacerY, getWidth()-1, spacerY);
-
-
-		// check if we are drawing with clipping
-		//Shape shape = g.getClip();
-		/*
-		Rectangle clip = null;
-		if (DRAW_OPTIMIZE) {
-			clip = g.getClipBounds();
-		}
-		 */
 
 		// Factor a few things out to help the optimizer
-		//final int dx = Math.round(dX()-2);
-		//final int dy = Math.round(dY()-2);
+
 		final int bWidth = board.getWidth();
 
 		int x, y;
 		
 		
 		final int yHeight = this.HEIGHT;
-		/*
-		for(y = 0; y< yHeight; y++){
-			for(x = 0; x< bWidth; x++){
-				char c = (char)((128+y * bWidth + x)%256);
-				result.append(c);
-			}	
-			result.append("\n");
-		}*/
 		
 		for (y = yHeight-1; y >=0; y--) {
 		// Loop through and draw all the blocks
 		// left-right, bottom-top
 			for (x=0; x<bWidth; x++) {
-				//int left = xPixel(x);	// the left pixel
-			
-			// right pixel (useful for clip optimization)
-			//int right = xPixel(x+1) -1;
-			
-			// skip this x if it is outside the clip rect
-			//if (DRAW_OPTIMIZE && clip!=null) {
-			//	if ((right<clip.x) || (left>=(clip.x+clip.width))) continue;
-			//}
-			
-			// draw from 0 up to the col height
 			
 				if (board.getGrid(x, y)) {
-					//boolean filled = (board.getRowWidth(y)==bWidth);
-					//if (filled) g.setColor(Color.green);
-					result.append("*");
-					//g.fillRect(left+1, yPixel(y)+1, dx, dy);	// +1 to leave a white border
-			
-					//if (filled) g.setColor(Color.black);
+
+					result.append("\u25A9");    //25A0
+
 				}else{
 					result.append(" ");
 				}
@@ -655,127 +424,14 @@ public class JTetris {
 	}
 
 
-	/**
-	 Creates the panel of UI controls -- controls wired
-	 up to call methods on the JTetris. This code is very repetitive.
-	 */
-	/*
-	public JComponent createControlPanel() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-		// COUNT
-		countLabel = new JLabel("0");
-		panel.add(countLabel);
-
-		// SCORE
-		scoreLabel = new JLabel("0");
-		panel.add(scoreLabel);
-
-		// TIME
-		timeLabel = new JLabel(" ");
-		panel.add(timeLabel);
-
-		panel.add(Box.createVerticalStrut(12));
-
-		// START button
-		startButton = new JButton("Start");
-		panel.add(startButton);
-		startButton.addActionListener( new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				startGame();
-			}
-		});
-
-		// STOP button
-		stopButton = new JButton("Stop");
-		panel.add(stopButton);
-		stopButton.addActionListener( new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				stopGame();
-			}
-		});
-
-		enableButtons();
-
-		JPanel row = new JPanel();
-
-		// SPEED slider
-		panel.add(Box.createVerticalStrut(12));
-		row.add(new JLabel("Speed:"));
-		speed = new JSlider(0, 200, 75);	// min, max, current
-		speed.setPreferredSize(new Dimension(100, 15));
-
-		updateTimer();
-		row.add(speed);
-
-		panel.add(row);
-		speed.addChangeListener( new ChangeListener() {
-			// when the slider changes, sync the timer to its value
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				updateTimer();
-			}
-		});
-
-		testButton = new JCheckBox("Test sequence");
-		panel.add(testButton);
-
-
-		return panel;
+	
+	//one of the cheating 
+	public synchronized void quake(){
+//		int i=10;
+//		while(i!=0){
+			board.swapRandomCol();
+//			i--;
+//		}
 	}
-*/
-	/**
-	 * Creates and returns a frame around the given JTetris.
-	 * The new frame is not visible.
-	 */
-	/*
-	public static JFrame createFrame(JTetris tetris) {
-		JFrame frame = new JFrame("Tetris");
-		JComponent container = (JComponent)frame.getContentPane();
-		container.setLayout(new BorderLayout());
-
-		// Install the passed in JTetris in the center.
-		container.add(tetris, BorderLayout.CENTER);
-		// Create and install the panel of controls.
-		JComponent controls = tetris.createControlPanel();
-		container.add(controls, BorderLayout.EAST);
-
-		// Add the quit button last so it's at the bottom
-		controls.add(Box.createVerticalStrut(12));
-		JButton quit = new JButton("Quit");
-		controls.add(quit);
-		quit.addActionListener( new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
-
-		return frame;
-	}*/
-
-	/**
-	 Creates a frame with a JTetris.
-	 */
-//	public static void main(String[] args) {
-//		// Set GUI Look And Feel Boilerplate.
-//		// Do this incantation at the start of main() to tell Swing
-//		// to use the GUI LookAndFeel of the native platform. It's ok
-//		// to ignore the exception.
-//		/*//Jie: Don't affect the function & we don't have the source file of UIManager, so just comment it.
-//		try {
-//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//		} catch (Exception ignored) { }
-//		*/
-//		//JTetris tetris = new JTetris(25);
-//		//JFrame frame = JTetris.createFrame(tetris);
-//		//frame.setVisible(true);
-//	}
 }
 

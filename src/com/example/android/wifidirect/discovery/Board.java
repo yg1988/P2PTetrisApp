@@ -1,5 +1,6 @@
 package com.example.android.wifidirect.discovery;
 import java.util.Arrays;
+import java.util.Random;
 
 // Board.java
 
@@ -421,6 +422,39 @@ public class Board	{
 		grid = gridtemp;
 
 		recomputeMaxheight();
+	}
+	
+	private Random r = new Random();
+	public void swapRandomCol(){
+		int firstCol=r.nextInt(width-4);
+		int secondCol=r.nextInt(width-4);
+		while(firstCol==secondCol)
+			secondCol=r.nextInt(width-4);
+		swapOneCol(firstCol, secondCol);
+		swapOneCol(firstCol+1, secondCol+1);
+		swapOneCol(firstCol+2, secondCol+2);
+		swapOneCol(firstCol+1, secondCol+3);
+
+	}
+	private void swapOneCol(int firstCol, int secondCol){
+		int tempInt;
+		tempInt=heights[firstCol];
+		heights[firstCol]=heights[secondCol];
+		heights[secondCol]=tempInt;
+		tempInt=heightsBackup[firstCol];
+		heightsBackup[firstCol]=heightsBackup[secondCol];
+		heightsBackup[secondCol]=tempInt;
+
+		boolean temp;
+		for(int i=0;i<Math.max(heightsBackup[firstCol], heightsBackup[secondCol]);i++){
+			temp=gridBackup[firstCol][i];
+			gridBackup[firstCol][i]=gridBackup[secondCol][i];
+			gridBackup[secondCol][i]=temp;
+			temp=grid[firstCol][i];
+			grid[firstCol][i]=grid[secondCol][i];
+			grid[secondCol][i]=temp;
+
+		}
 	}
 }
 

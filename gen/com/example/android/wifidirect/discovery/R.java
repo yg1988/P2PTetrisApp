@@ -32,6 +32,7 @@ public final class R {
         public static final int hello_world=0x7f040004;
         public static final int left=0x7f040006;
         public static final int menu_settings=0x7f040005;
+        public static final int quake=0x7f04000b;
         public static final int right=0x7f040007;
         public static final int rotate=0x7f040009;
         public static final int title_activity_main=0x7f04000a;

@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/textView1"
         android:text="@string/down"
-        android:background="#CCCCCC"
+        android:background="#155575"
         tools:context=".WiFiChatFragment"/>
  -->
 
@@ -42,7 +42,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/down"
-	        android:background="#CCCCCC"
+	        android:background="#155575"
 	        tools:context=".WiFiChatFragment"/>
 	</LinearLayout>
     <Button
@@ -74,5 +74,13 @@
         android:text="@string/rotate"
         android:layout_marginLeft="210sp"
         android:layout_marginTop="300sp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="210sp"
+        android:layout_marginTop="500sp"
+        android:onClick="earth_quake"
+        android:text="@string/quake" />
 
 </FrameLayout>

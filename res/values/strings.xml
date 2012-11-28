@@ -12,5 +12,6 @@
     <string name="down">Down</string>
     <string name="rotate">Rotate</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="quake">quake</string>
 
 </resources>

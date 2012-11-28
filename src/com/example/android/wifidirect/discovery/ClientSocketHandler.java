@@ -13,7 +13,7 @@ public class ClientSocketHandler extends Thread {
 
     private static final String TAG = "ClientSocketHandler";
     private Handler handler;
-    private ChatManager chat;
+    private NetworkManager TetrisGame;
     private InetAddress mAddress;
 
     public ClientSocketHandler(Handler handler, InetAddress groupOwnerAddress) {
@@ -29,8 +29,11 @@ public class ClientSocketHandler extends Thread {
             socket.connect(new InetSocketAddress(mAddress.getHostAddress(),
                     WiFiServiceDiscoveryActivity.SERVER_PORT), 5000);
             Log.d(TAG, "Launching the I/O handler");
-            chat = new ChatManager(socket, handler);
-            new Thread(chat).start();
+            
+            
+            /*TetrisGame here is created by the clientsocket handler and latter published*/
+            TetrisGame = new NetworkManager(socket, handler);
+            new Thread(TetrisGame).start();
         } catch (IOException e) {
             e.printStackTrace();
             try {
@@ -41,9 +44,9 @@ public class ClientSocketHandler extends Thread {
             return;
         }
     }
-
-    public ChatManager getChat() {
-        return chat;
+//we don't know if this is a good practice thread-safe way to publish a object
+    public NetworkManager getChat() {
+        return TetrisGame;
     }
 
 }
